@@ -21,7 +21,12 @@
 //  2- The first letters of the firstName and lastName should be capital letter
 
 const objLat = (obj) => {
-    // write your code here
+    const { firstName, lastName, age, hobby } = obj;
+    const formattedFirstName = firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase();
+    const formattedLastName = lastName.charAt(0).toUpperCase() + lastName.slice(1).toLowerCase();
+    const formattedText = `my name is ${formattedFirstName} ${formattedLastName} I am ${age} YO, and I love ${hobby}.`;
+
+    return formattedText;
 };
 // -------------------------------------------------------------------------------------------------------
 
@@ -85,8 +90,12 @@ const objLat = (obj) => {
 //  2- If one of the names is null don`t add it to the full name
 
 const cvFormatter = (arr) => {
-    // write your code here
-};
+    return arr.map(applicant => {
+        const fullName = (applicant.firstName && applicant.lastName) ? `${applicant.firstName} ${applicant.lastName}` : applicant.firstName || applicant.lastName;
+        if (applicant.yearsOfExperience > 1) {
+            return { fullName, tech: applicant.tech };
+        }
+    }).filter(Boolean);};
 // -------------------------------------------------------------------------------------------------------
 
 // -------------------------------------------------------------------------------------------------------
@@ -111,8 +120,44 @@ const cvFormatter = (arr) => {
 //  1- rejectedApplicants are applications that has both the names empty or null and whoever have one year or less of Experience
 
 const applicationsStatics = (arr) => {
-    // write your code here
-};
+    let result = {
+        python_devs: 0,
+        javaScript_devs: 0,
+        dotNet_devs: 0,
+        java_devs: 0,
+        totalApplicants: 0,
+        rejectedApplicants: 0,
+    };
+
+    arr.forEach(applicant => {
+        if (!applicant.firstName && !applicant.lastName) {
+            result.rejectedApplicants++;
+        }
+        else if (applicant.yearsOfExperience <= 1) {
+            result.rejectedApplicants++;
+        }
+        else {
+            result.totalApplicants++;
+            switch (applicant.tech) {
+                case 'Python':
+                    result.python_devs++;
+                    break;
+                case 'JS':
+                    result.javaScript_devs++;
+                    break;
+                case '.Net':
+                    result.dotNet_devs++;
+                    break;
+                case 'Java':
+                    result.java_devs++;
+                    break;
+                default:
+                    break;
+            }
+        }
+    });
+
+    return result;};
 // -------------------------------------------------------------------------------------------------------
 
 // -------------------------------------------------------------------------------------------------------
@@ -238,8 +283,19 @@ let data = {
 //  2- You need to round the average to the nearest lower number 
 
 const classesAvg = (data) => {
-    // write your code here
-};
+    const classesAvg = (data) => {
+        data.grades.forEach(grade => {
+            grade.classes.forEach(klass => {
+                const sum = klass.classScores.reduce((acc, score) => acc + score, 0);
+                const avg = Math.floor(sum / klass.classScores.length);
+                klass.avg = avg;
+            });
+        });
+        return data;
+        // comment to test 
+    };
+    
+    };
 // -------------------------------------------------------------------------------------------------------
 
 module.exports = { objLat, cvFormatter, applicationsStatics, classesAvg };
