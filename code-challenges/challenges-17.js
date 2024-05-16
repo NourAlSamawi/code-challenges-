@@ -39,7 +39,7 @@ const recursionPattern = (int1, int2) => {
 // 
 
 const filterLinks = (str) => {
-    const linkRegex = /https?:\/\/([^\/]+)/;
+    const linkRegex = /href="https?:\/\/([^"]+)"/;
     const match = str.match(linkRegex);
     if (match && match[1]) {
         return match[1];
